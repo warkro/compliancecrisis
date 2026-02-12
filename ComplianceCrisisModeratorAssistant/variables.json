@@ -1,0 +1,15 @@
+{
+  "variables": [
+    { "name": "players", "type": "list" },
+    { "name": "refund_count", "type": "number", "initialValue": 0 },
+    { "name": "refund_target", "type": "number" },
+    { "name": "night_number", "type": "number", "initialValue": 1 },
+    { "name": "day_number", "type": "number", "initialValue": 1 },
+    { "name": "upsold_last_night", "type": "list" },
+    { "name": "sales_manager_shield", "type": "string" },
+    { "name": "complaint_target", "type": "string" },
+    { "name": "game_started", "type": "boolean", "initialValue": false },
+    { "name": "roles_assigned", "type": "boolean", "initialValue": false },
+    { "name": "current_phase", "type": "string", "initialValue": "setup" }
+  ]
+}

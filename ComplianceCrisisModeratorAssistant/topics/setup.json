@@ -1,0 +1,13 @@
+{
+  "name": "Setup",
+  "trigger": "current_phase == 'setup'",
+  "steps": [
+    "Ask: 'Moderator: How many players (5–24), and what are their names?'",
+    "Store players",
+    "Assign roles using scaling rules",
+    "Set roles_assigned = true",
+    "Set game_started = true",
+    "Set current_phase = 'night'",
+    "Send: 'Setup complete. Beginning Night 1.'"
+  ]
+}

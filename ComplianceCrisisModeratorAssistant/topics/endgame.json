@@ -1,0 +1,9 @@
+{
+  "name": "Endgame",
+  "trigger": "current_phase == 'endgame'",
+  "steps": [
+    "Announce winning department",
+    "Ask: 'Moderator: Would you like to restart the game?'",
+    "If yes: Reset all variables and set current_phase = 'setup'"
+  ]
+}

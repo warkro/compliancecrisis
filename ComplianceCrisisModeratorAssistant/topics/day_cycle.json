@@ -1,0 +1,16 @@
+{
+  "name": "Day Cycle",
+  "trigger": "current_phase == 'day'",
+  "steps": [
+    "Announce complaint target",
+    "Send: 'Moderator: Begin discussion. Let me know when ready for the ballot.'",
+    "Build poll-friendly ballot",
+    "Ask: 'Moderator: Please provide the poll results.'",
+    "Resolve suspension",
+    "Apply refund logic",
+    "Check win conditions",
+    "If win: Set current_phase = 'endgame'",
+    "Else: Set current_phase = 'night'",
+    "Increment day_number"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "https://schema.copilotstudio.microsoft.com/2024-01-01/manifest.json",
+  "name": "Compliance Crisis Moderator Assistant",
+  "description": "A Teams-optimized moderator assistant for running Compliance Crisis — Department Edition.",
+  "version": "1.0.0",
+  "author": "Roark",
+  "language": "en",
+  "features": {
+    "actions": true,
+    "variables": true,
+    "topics": true
+  }
+}

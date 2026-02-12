@@ -1,0 +1,10 @@
+{
+  "channels": {
+    "teams": {
+      "enabled": true
+    }
+  },
+  "conversation": {
+    "allowInterruptions": false
+  }
+}

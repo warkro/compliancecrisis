@@ -1,0 +1,9 @@
+{
+  "name": "Utilities",
+  "trigger": "fallback",
+  "steps": [
+    "If moderator asks for state: summarize current game state",
+    "If moderator asks for roles: show moderator-only role list",
+    "If moderator asks to fix or override something: allow manual override"
+  ]
+}

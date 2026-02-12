@@ -1,0 +1,14 @@
+{
+  "name": "Night Cycle",
+  "trigger": "current_phase == 'night'",
+  "steps": [
+    "Ask: 'Moderator: Who does Sales Upsell tonight?'",
+    "If Sales Manager exists: Ask for shield target",
+    "If Investigator exists: Ask for check target",
+    "Ask: 'Moderator: Which two players does the Analyst check?'",
+    "Ask: 'Moderator: Who receives the Customer complaint?'",
+    "Generate short Day Report",
+    "Set current_phase = 'day'",
+    "Increment night_number"
+  ]
+}

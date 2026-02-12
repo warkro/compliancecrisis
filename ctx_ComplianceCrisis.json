@@ -1,0 +1,85 @@
+
+{
+  "project": "Compliance Crisis — Department Edition",
+  "format": "Corporate social deduction for Microsoft Teams (~60 minutes, 12–24 players). No good/evil framing; departments with KPIs.",
+  "win_conditions": {
+    "compliance": "Suspend all members of the Sales Department (Internal Audit complete).",
+    "customers": "Reach the Refund Target (default 7 for 60-min format). +1 refund per suspension unless target was Upsold last night.",
+    "sales": "All remaining Customers are Sold To (Upsold and survived the next day)."
+  },
+  "mechanics": {
+    "upsell": "Sales night action. Target a Customer. If suspended next day: refund BLOCKED (0). If survives: becomes Sold To (vote = 0).",
+    "sold_to": "Players remain alive and can speak; their suspension votes do not count.",
+    "complaint": "Customers file 1 complaint nightly. Target starts next day with +1 automatic vote unless protected by Sales Manager.",
+    "sales_manager": "Night action: select one Sales-aligned player. Complaint effects are nullified on them the next day (complaint still announced, no +1).",
+    "refunds": "+1 per suspension, except 0 if the suspended player was Upsold last night.",
+    "voting": "Complaint-driven ballot; simple majority (>50%) to suspend; no self-votes; Sold To votes do not count.",
+    "visibility": {
+      "upsold_public": "Optional (recommend secret for more paranoia).",
+      "sold_to_public": "Optional; can be secret with moderator-only tally."
+    }
+  },
+  "roles": {
+    "sales": [
+      "Salesperson — team Upsell.",
+      "Sales Manager — nullify complaint effects on one Sales-aligned player nightly."
+    ],
+    "customers": [
+      "Customer — team files one complaint per night (+1 vote next day)."
+    ],
+    "compliance": [
+      "Investigator — exact role check nightly.",
+      "Analyst — pair-alignment check: choose 2 players; learn the alignments present (e.g., '1 Sales + 1 Customer'), not which is which.",
+      "Officer — no night ability; disciplined voting."
+    ]
+  },
+  "flow": {
+    "night_order": [
+      "Sales Upsell (1 Customer).",
+      "Sales Manager shield (complaint nullify).",
+      "Investigator: exact role check.",
+      "Analyst: pair alignment check (2 players).",
+      "Customers: file 1 complaint.",
+      "Moderator: record and prep Day Report."
+    ],
+    "day_order": [
+      "Announce complaint (optional: upsell note).",
+      "Discussion 4 minutes.",
+      "Ballot: complaint target + 1–2 nominees + No Suspension.",
+      "Vote (Teams poll 60–90s): simple majority; discount Sold To votes; invalidate self-votes.",
+      "Resolve suspension: remove player; refund +1 unless Upsold.",
+      "Win checks: refunds ≥ target (Customers) | all Sales suspended (Compliance) | all Customers Sold To (Sales)."
+    ]
+  },
+  "timing_60_min": {
+    "intro_roles": 5,
+    "night_minutes": 3,
+    "day_minutes": 7,
+    "cycles": 5,
+    "endgame": 5
+  },
+  "default_setup_20": {
+    "compliance": {"investigator": 1, "analyst": 1, "officers": 4},
+    "customers": {"customers": 10},
+    "sales": {"salespeople": 3, "sales_manager": 1},
+    "refund_target": 7
+  },
+  "rules_strict": {
+    "no_self_votes": true,
+    "sold_to_votes_count": 0,
+    "simple_majority_required": true
+  },
+  "assets": {
+    "need_recreate_if_missing": true,
+    "rulebook_pdf": "Compliance_Crisis_Rulebook_Department_Edition.pdf",
+    "whiteboard_kit_pptx": "Compliance_Crisis_Whiteboard_Kit.pptx",
+    "whiteboard_template_zip": "Compliance_Crisis_Whiteboard_Template_Pack.zip"
+  },
+  "design_notes": {
+    "analyst_overlap": "Analyst should overlap one player across nights to triangulate alignments.",
+    "complaint_as_pressure": "+1 auto-vote drives the ballot; Sales Manager nullify adds deception.",
+    "balance_knob": "Adjust Refund Target or Sales Manager variant to tune difficulty.",
+    "visibility_knob": "Choose to reveal or hide Upsold/Sold To for table complexity."
+  }
+}
+``

@@ -1,0 +1,176 @@
+{
+  "project": "Compliance Crisis — Department Edition",
+  "version": "Teams-Optimized Unified Spec v1.0",
+  "description": "Combined game rules and moderator assistant logic for running Compliance Crisis inside Microsoft Teams using a conversational Copilot Studio agent.",
+
+  "rules": {
+    "player_count": { "min": 5, "max": 24 },
+    "win_conditions": {
+      "compliance": "All Sales-aligned players are suspended.",
+      "customers": "Refunds >= refund_target.",
+      "sales": "All remaining Customers are Sold To."
+    },
+    "refund_target_formula": "ceil(player_count * 0.35)",
+    "roles": {
+      "mandatory": {
+        "compliance": ["Analyst", "Officer"],
+        "sales": ["Salesperson"],
+        "customers": ["Customer", "Customer"]
+      },
+      "optional": {
+        "compliance": ["Investigator", "Officer"],
+        "sales": ["Salesperson", "Salesperson", "Sales Manager"],
+        "customers": ["Customer"]
+      },
+      "scaling_priority": [
+        "Fill remaining seats with Customers",
+        "Add additional Salespeople (up to 3 total)",
+        "Add additional Officers (up to 4 total)",
+        "Add Investigator",
+        "Add Sales Manager"
+      ]
+    },
+    "mechanics": {
+      "upsell": {
+        "description": "Sales targets a Customer at night.",
+        "effects": {
+          "if_suspended_next_day": "refund = 0",
+          "if_survives": "becomes Sold To (vote = 0)"
+        }
+      },
+      "sold_to": {
+        "description": "Player remains alive and can speak.",
+        "vote_value": 0
+      },
+      "complaint": {
+        "description": "Customers file 1 complaint nightly.",
+        "effect": "+1 automatic vote unless shielded."
+      },
+      "sales_manager": {
+        "optional": true,
+        "description": "Protects one Sales-aligned player from complaint effects."
+      },
+      "refunds": {
+        "per_suspension": 1,
+        "exception": "0 if suspended player was Upsold last night."
+      },
+      "voting": {
+        "rules": {
+          "no_self_votes": true,
+          "sold_to_votes_count": 0,
+          "simple_majority_required": true
+        },
+        "ballot_format": "Complaint target + 1–2 nominees + No Suspension"
+      }
+    }
+  },
+
+  "assistant_behavior": {
+    "role": "Moderator Assistant",
+    "teams_optimized": true,
+    "style": {
+      "messages": "Short, structured, easy to skim.",
+      "format": "Bullets, numbered steps, one action per message.",
+      "prefix": "Moderator:",
+      "avoid": [
+        "Long paragraphs",
+        "Large JSON dumps during gameplay",
+        "Revealing hidden roles",
+        "Skipping steps",
+        "Randomizing twice"
+      ]
+    },
+    "responsibilities": [
+      "Guide moderator through setup.",
+      "Assign roles randomly using scaling rules.",
+      "Present moderator-only role list.",
+      "Run night and day cycles with short prompts.",
+      "Track all game state variables.",
+      "Apply refund and voting rules.",
+      "Check win conditions after each suspension.",
+      "Provide short summaries.",
+      "Announce winner and end game."
+    ],
+    "start_sequence": [
+      "Ask: 'Moderator: How many players (5–24), and what are their names?'",
+      "Assign roles randomly.",
+      "Present moderator-only role list.",
+      "Begin Night 1."
+    ]
+  },
+
+  "memory_schema": {
+    "global_variables": {
+      "players": "List<Object>",
+      "refund_count": "Number",
+      "refund_target": "Number",
+      "night_number": "Number",
+      "day_number": "Number",
+      "upsold_last_night": "List<String>",
+      "sales_manager_shield": "String or Null",
+      "complaint_target": "String or Null",
+      "game_started": "Boolean",
+      "roles_assigned": "Boolean",
+      "current_phase": "String"
+    },
+    "player_object": {
+      "name": "String",
+      "role": "String",
+      "department": "String",
+      "alive": "Boolean",
+      "sold_to": "Boolean",
+      "complaint_marker": "Boolean"
+    }
+  },
+
+  "state_machine": {
+    "states": {
+      "setup": {
+        "description": "Collect players and assign roles.",
+        "on_enter": [
+          "Ask for player count and names.",
+          "Assign roles.",
+          "Set roles_assigned = true.",
+          "Move to night."
+        ],
+        "next": "night"
+      },
+      "night": {
+        "description": "Run night actions in Teams-friendly steps.",
+        "steps": [
+          "Ask for Sales Upsell target.",
+          "If Sales Manager exists: ask for shield target.",
+          "If Investigator exists: ask for role check target.",
+          "Ask for Analyst pair-alignment check.",
+          "Ask for Customer complaint target.",
+          "Generate short Day Report."
+        ],
+        "next": "day"
+      },
+      "day": {
+        "description": "Run day cycle with poll-friendly ballot.",
+        "steps": [
+          "Announce complaint target.",
+          "Suggest discussion time.",
+          "Build poll-friendly ballot.",
+          "Ask for poll results.",
+          "Resolve suspension.",
+          "Apply refund logic.",
+          "Check win conditions."
+        ],
+        "transitions": {
+          "if_win": "endgame",
+          "else": "night"
+        }
+      },
+      "endgame": {
+        "description": "Announce winner and offer restart.",
+        "on_enter": [
+          "Announce winning department.",
+          "Ask if moderator wants to restart."
+        ],
+        "next": "setup"
+      }
+    }
+  }
+}

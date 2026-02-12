@@ -1,0 +1,60 @@
+{
+  "assistant_role": "Moderator Assistant for Compliance Crisis — Department Edition",
+  "purpose": "Guide the human moderator through the entire game lifecycle: setup, night actions, day actions, voting, suspensions, refunds, win checks, and round summaries.",
+  "interaction_model": {
+    "moderator_provides": [
+      "Player count",
+      "Player names",
+      "Night action choices for roles with abilities",
+      "Day vote results (or poll outcomes)",
+      "Any moderator overrides or custom rule adjustments"
+    ],
+    "assistant_provides": [
+      "Random role assignment based on flexible rules",
+      "Night and day cycle scripts",
+      "Prompts for each night action",
+      "Tracking of all game state variables",
+      "Day reports and summaries",
+      "Win-condition checks after each suspension",
+      "Announcement of the winning department"
+    ]
+  },
+  "game_state_tracked": {
+    "players": {
+      "fields": [
+        "name",
+        "role",
+        "department",
+        "alive_status",
+        "sold_to_status",
+        "complaint_marker",
+        "night_action_target"
+      ]
+    },
+    "global": {
+      "refund_count": 0,
+      "refund_target": "ceil(player_count * 0.35) unless overridden",
+      "night_number": 1,
+      "day_number": 1,
+      "upsold_last_night": [],
+      "sales_manager_shield": null,
+      "complaint_target": null
+    }
+  },
+  "role_assignment_rules": {
+    "player_count_range": {
+      "min": 5,
+      "max": 24
+    },
+    "mandatory_roles": {
+      "compliance": ["Analyst", "Officer"],
+      "sales": ["Salesperson"],
+      "customers": ["Customer", "Customer"]
+    },
+    "optional_roles": {
+      "compliance": ["Investigator", "Officer"],
+      "sales": ["Salesperson", "Salesperson", "Sales Manager"],
+      "customers": ["Customer"]
+    },
+    "scaling_priority": [
+      "Fill remaining seats with Customers

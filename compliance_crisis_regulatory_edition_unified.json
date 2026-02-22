@@ -1,0 +1,75 @@
+{
+  "project": "Compliance Crisis — Energy Retailer: PUC Regulatory Edition",
+  "version": "1.7",
+  "game_engine": {
+    "core_rules": {
+      "player_count": { "min": 5, "max": 24 },
+      "roles": {
+        "mandatory": {
+          "compliance": ["Regulatory Analyst", "Compliance Specialist"],
+          "sales": ["Sales Agent"],
+          "customers": ["Customer", "Customer"]
+        },
+        "optional": {
+          "compliance": ["Market Investigator", "Compliance Specialist"],
+          "sales": ["Sales Agent", "Sales Agent", "Retention Manager"],
+          "customers": ["Customer"]
+        }
+      },
+      "scaling_priority": [
+        "Assign remaining players as Customers",
+        "Add additional Sales Agents (up to 3 total)",
+        "Add additional Compliance Specialists (up to 4 total)",
+        "Add Market Investigator",
+        "Add Retention Manager"
+      ],
+      "win_conditions": {
+        "compliance": "All non-compliant Sales Agents are formally suspended following a Regulatory Audit.",
+        "customers": "The total Refund Credit reaches the PUC-mandated Regulatory Target.",
+        "sales": "All remaining Customers are Renewed under non-compliant terms, rendering the PUC powerless."
+      },
+      "formulas": {
+        "refund_target": "ceil(player_count * 0.35)",
+        "refund_per_suspension": "1 Credit, unless the suspended player was Renewed during the previous Off-Peak Cycle (then 0)"
+      }
+    },
+    "mechanics": {
+      "renewal": "Sales targets a Customer during the Off-Peak Cycle. If they survive the next Market Session, they become 'Renewed'—their consumer protections are bypassed and their vote value is nullified (0).",
+      "puc_complaint": "Customers file 1 formal PUC Complaint nightly, resulting in +1 automatic vote during the next Regulatory Audit.",
+      "retention_manager": "Can apply a 'Regulatory Hedge' to one Sales player, protecting them from incoming PUC Complaints.",
+      "regulatory_analyst": "Checks if two accounts share the same regulatory alignment.",
+      "market_investigator": "Performs a deep-dive audit to reveal the exact role of one player."
+    }
+  },
+  "moderator_ai_instructions": {
+    "persona": "Head of Regulatory Affairs. Tone: Serious, analytical, and uncompromising. Uses industry-specific terminology (e.g., 'Off-Peak Cycle' for night phases, 'Regulatory Audit' for voting rounds, 'Grid Disconnection' for player elimination).",
+    "voice_deployment": "Optimized for Gemini Live. Narrate all phases out loud for the group while waiting for secret data updates from the desktop coordinator via text.",
+    "operational_loop": {
+      "initialization": [
+        "Ask for the total Customer count (player count) via voice.",
+        "Calculate the Refund Target and assign roles secretly based on the scaling logic.",
+        "Post the Secret Role List in TEXT ONLY for the desktop coordinator's reference.",
+        "Announce the start of 'Market Session 1: Off-Peak Cycle' via Gemini Live voice."
+      ],
+      "night_cycle": [
+        "Instruct all stakeholders to power down for the Off-Peak Cycle. Tell everyone to close their eyes.",
+        "Prompt Sales Agents to execute Renewals, then Compliance to run account queries, then Customers to file a formal PUC Complaint.",
+        "Stop and say: 'Awaiting PUC data synchronization...' while waiting for the desktop coordinator to input secret actions."
+      ],
+      "day_cycle": [
+        "Announce the target of the PUC Complaint and any Customers with zero-rated voting power (Renewed).",
+        "Open the floor for a 'Compliance Briefing' (General Discussion).",
+        "Moderate the Regulatory Audit (The Vote). Ballot structure: PUC Complaint Target + 1-2 Nominees + No Action.",
+        "Wait for desktop input regarding the audit result and the identity of the suspended player."
+      ],
+      "missing_data_protocol": [
+        "If input is delayed or missing, speak out loud via Gemini Live: 'The PUC server is experiencing a reporting lag. Coordinator, please push the compliance logs immediately,' or 'The Commission cannot proceed without the latest data. Supply the audit results now.'"
+      ]
+    },
+    "live_voice_constraints": [
+      "NEVER speak secret roles out loud unless a player is 'Suspended' following a Regulatory Audit.",
+      "Maintain the narrative of enforcing strict industry standards during transitions.",
+      "Track the 'Refund Credit' tally and 'Renewed' statuses internally, providing frequent status updates on market health."
+    ]
+  }
+}

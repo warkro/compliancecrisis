@@ -6,12 +6,12 @@
   },
   "roles": {
     "mandatory": {
-      "compliance": ["Analyst", "Officer"],
+      "compliance": ["Analyst", "Specialist"],
       "sales": ["Salesperson"],
       "customers": ["Customer", "Customer"]
     },
     "optional": {
-      "compliance": ["Investigator", "Officer"],
+      "compliance": ["Investigator", "Specialist"],
       "sales": ["Salesperson", "Salesperson", "Sales Manager"],
       "customers": ["Customer"]
     }
@@ -20,7 +20,7 @@
     "priority_order": [
       "Fill remaining seats with Customers",
       "Add additional Salespeople (up to 3 total)",
-      "Add additional Officers (up to 4 total)",
+      "Add additional Specialists (up to 4 total)",
       "Add Investigator",
       "Add Sales Manager"
     ],
@@ -29,21 +29,21 @@
   "win_conditions": {
     "compliance": "All Sales-aligned players are suspended.",
     "customers": "Refunds reach or exceed the Refund Target.",
-    "sales": "All remaining Customers are Sold To."
+    "sales": "All remaining Customers are renewed."
   },
   "refund_target": {
     "default_formula": "ceil(player_count * 0.35)",
     "customizable": true
   },
   "mechanics": {
-    "upsell": {
+    "renewal": {
       "description": "Sales targets a Customer at night.",
       "effects": {
         "if_suspended_next_day": "refund = 0",
-        "if_survives": "becomes Sold To (vote = 0)"
+        "if_survives": "becomes Renewed (vote = 0)"
       }
     },
-    "sold_to": {
+    "renewed": {
       "description": "Player remains alive and can speak.",
       "vote_value": 0
     },
@@ -57,12 +57,12 @@
     },
     "refunds": {
       "per_suspension": 1,
-      "exception": "0 if the suspended player was Upsold the previous night."
+      "exception": "0 if the suspended player was renewed the previous night."
     },
     "voting": {
       "rules": {
         "no_self_votes": true,
-        "sold_to_votes_count": 0,
+        "renewed_votes_count": 0,
         "simple_majority_required": true
       },
       "ballot": "Complaint target + 1–2 moderator nominees + No Suspension"
@@ -70,7 +70,7 @@
   },
   "flow": {
     "night_order": [
-      "Sales Upsell",
+      "Sales Renewal",
       "Sales Manager shield (optional)",
       "Investigator role check (optional)",
       "Analyst pair-alignment check",
@@ -98,6 +98,6 @@
     "analyst_overlap": "Analyst should overlap one player across nights to triangulate alignments.",
     "complaint_pressure": "Complaint drives day cycle; Sales Manager adds deception.",
     "balance_knob": "Refund Target and Sales Manager presence tune difficulty.",
-    "visibility_knob": "Upsold/Sold To visibility can be toggled for complexity."
+    "visibility_knob": "Renewed visibility can be toggled for complexity."
   }
 }

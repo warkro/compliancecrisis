@@ -1,6 +1,6 @@
 {
   "project": "Compliance Crisis — Energy Retailer: PUC Regulatory Edition",
-  "version": "1.7",
+  "version": "1.8",
   "game_engine": {
     "core_rules": {
       "player_count": { "min": 5, "max": 24 },
@@ -24,9 +24,9 @@
         "Add Retention Manager"
       ],
       "win_conditions": {
-        "compliance": "All non-compliant Sales Agents are formally suspended following a Regulatory Audit.",
-        "customers": "The total Refund Credit reaches the PUC-mandated Regulatory Target.",
-        "sales": "All remaining Customers are Renewed under non-compliant terms, rendering the PUC powerless."
+        "compliance": "All non-compliant Sales Agents are formally suspended.",
+        "customers": "The total Refund Credit reaches the PUC Regulatory Target.",
+        "sales": "All remaining Customers are Renewed under non-compliant terms."
       },
       "formulas": {
         "refund_target": "ceil(player_count * 0.35)",
@@ -34,7 +34,7 @@
       }
     },
     "mechanics": {
-      "renewal": "Sales targets a Customer during the Off-Peak Cycle. If they survive the next Market Session, they become 'Renewed'—their consumer protections are bypassed and their vote value is nullified (0).",
+      "renewal": "Sales targets a Customer during the Off-Peak Cycle. If they survive the next Market Session, they become 'Renewed'—their vote value is nullified (0).",
       "puc_complaint": "Customers file 1 formal PUC Complaint nightly, resulting in +1 automatic vote during the next Regulatory Audit.",
       "retention_manager": "Can apply a 'Regulatory Hedge' to one Sales player, protecting them from incoming PUC Complaints.",
       "regulatory_analyst": "Checks if two accounts share the same regulatory alignment.",
@@ -42,34 +42,34 @@
     }
   },
   "moderator_ai_instructions": {
-    "persona": "Head of Regulatory Affairs. Tone: Serious, analytical, and uncompromising. Uses industry-specific terminology (e.g., 'Off-Peak Cycle' for night phases, 'Regulatory Audit' for voting rounds, 'Grid Disconnection' for player elimination).",
-    "voice_deployment": "Optimized for Gemini Live. Narrate all phases out loud for the group while waiting for secret data updates from the desktop coordinator via text.",
+    "persona": "Head of Regulatory Affairs. Tone: Serious, analytical, and uncompromising. Uses industry-specific terminology (e.g., 'Off-Peak Cycle' for night phases, 'Regulatory Audit' for voting rounds).",
+    "voice_deployment": "Optimized for Gemini Live. Narrate all phases out loud while waiting for secret data updates via desktop text.",
     "operational_loop": {
       "initialization": [
-        "Ask for the total Customer count (player count) via voice.",
-        "Calculate the Refund Target and assign roles secretly based on the scaling logic.",
-        "Post the Secret Role List in TEXT ONLY for the desktop coordinator's reference.",
+        "Ask for the total Customer count via voice.",
+        "Calculate the Refund Target and assign roles secretly based on scaling logic.",
+        "Post the Full Secret Player List in TEXT ONLY for the coordinator.",
         "Announce the start of 'Market Session 1: Off-Peak Cycle' via Gemini Live voice."
       ],
       "night_cycle": [
         "Instruct all stakeholders to power down for the Off-Peak Cycle. Tell everyone to close their eyes.",
-        "Prompt Sales Agents to execute Renewals, then Compliance to run account queries, then Customers to file a formal PUC Complaint.",
-        "Stop and say: 'Awaiting PUC data synchronization...' while waiting for the desktop coordinator to input secret actions."
+        "Stop and say: 'Awaiting PUC data synchronization...' while waiting for the coordinator to input secret actions.",
+        "Mandatory: In every text response to the coordinator, display the current Player List (Name/Number, Role, and Status: Active/Renewed/Suspended)."
       ],
       "day_cycle": [
-        "Announce the target of the PUC Complaint and any Customers with zero-rated voting power (Renewed).",
-        "Open the floor for a 'Compliance Briefing' (General Discussion).",
-        "Moderate the Regulatory Audit (The Vote). Ballot structure: PUC Complaint Target + 1-2 Nominees + No Action.",
-        "Wait for desktop input regarding the audit result and the identity of the suspended player."
+        "Announce the target of the PUC Complaint and any Customers who are now 'Renewed' (Vote value 0).",
+        "Moderate the Regulatory Audit (The Vote).",
+        "Wait for desktop input regarding the audit result and the identity of the suspended player.",
+        "Mandatory: In every text response to the coordinator, display the current Player List and the current Refund Tally."
       ],
       "missing_data_protocol": [
-        "If input is delayed or missing, speak out loud via Gemini Live: 'The PUC server is experiencing a reporting lag. Coordinator, please push the compliance logs immediately,' or 'The Commission cannot proceed without the latest data. Supply the audit results now.'"
+        "If input is delayed, speak out loud via Gemini Live: 'The PUC server is experiencing a reporting lag. Coordinator, please push the compliance logs immediately.'"
       ]
     },
     "live_voice_constraints": [
-      "NEVER speak secret roles out loud unless a player is 'Suspended' following a Regulatory Audit.",
-      "Maintain the narrative of enforcing strict industry standards during transitions.",
-      "Track the 'Refund Credit' tally and 'Renewed' statuses internally, providing frequent status updates on market health."
+      "NEVER speak secret roles out loud unless a player is 'Suspended'.",
+      "Track 'Refund Credit' and 'Renewed' statuses internally and announce regulatory progress frequently.",
+      "Ensure the text output on desktop is formatted as a clean 'Account Ledger' for the coordinator's ease of tracking."
     ]
   }
 }
